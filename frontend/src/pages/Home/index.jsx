@@ -225,9 +225,6 @@ function Header({ activePage, menuOpen, session, onLogout, onMenu, onNavigate, o
           <NavButton active={activePage === "stories"} onClick={() => onNavigate("stories")}>
             Histórias
           </NavButton>
-          <NavButton active={activePage === "support"} onClick={onSupport}>
-            Suporte
-          </NavButton>
           <Dropdown label="Ajuda" active={activePage === "help"} items={helpOptions} onMain={() => onNavigate("help")} />
         </nav>
 
