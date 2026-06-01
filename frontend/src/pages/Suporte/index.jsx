@@ -15,12 +15,6 @@ export default function Suporte({ session, onNavigate }) {
   const [success, setSuccess] = useState(false);
   const adotanteSession = getAdotanteSession(session);
 
-  useEffect(() => {
-    if (!adotanteSession) {
-      onNavigate("login");
-    }
-  }, [adotanteSession, onNavigate]);
-
   const updateField = (field, value) => {
     setForm((current) => ({ ...current, [field]: value }));
     setMessage("");
