@@ -3,6 +3,7 @@ package com.Miaumigo.Miaumigo.service;
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
 import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Especie;
 import com.Miaumigo.Miaumigo.domain.Porte;
 import com.Miaumigo.Miaumigo.domain.SexoAnimal;
@@ -35,9 +36,8 @@ import static org.mockito.Mockito.when;
 class AnimalServiceTest {
 
 	private final AnimalRepository animalRepository = mock(AnimalRepository.class);
-	private final AdotanteRepository adotanteRepository = mock(AdotanteRepository.class);
 	private final OperadorRepository operadorRepository = mock(OperadorRepository.class);
-	private final AnimalService animalService = new AnimalService(animalRepository, adotanteRepository, operadorRepository);
+	private final AnimalService animalService = new AnimalService(animalRepository,operadorRepository);
 
 	@Test
 	void deveCadastrarAnimal_quandoDadosValidos() {
@@ -78,7 +78,7 @@ class AnimalServiceTest {
 	@Test
 	void deveDevolverAnimal_quandoAnimalAdotado() {
 		UUID id = UUID.randomUUID();
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal(UUID.randomUUID());
 		Adotante adotante = novoAdotante("Maria Silva");
 		animal.realizarAdocao(adotante);
 		when(animalRepository.findById(id)).thenReturn(Optional.of(animal));
@@ -98,12 +98,7 @@ class AnimalServiceTest {
 	void deveRetornarAnimal_quandoIdValido() {
 		UUID id = UUID.randomUUID();
 		Animal animal = new Animal(
-				"Luna",
-					Especie.GATO,
-					Porte.PEQUENO,
-					SexoAnimal.FEMEA,
-					2,
-				"Dócil",
+				dadosAnimal("Dócil"),
 				UUID.randomUUID(),
 				List.of(Tag.DOCIL, Tag.CARINHOSO),
 				"animais/luna"
@@ -127,12 +122,7 @@ class AnimalServiceTest {
 	void deveListarAnimaisDisponiveis_quandoExistiremAnimaisComStatusDisponivel() {
 		UUID id = UUID.randomUUID();
 		Animal animal = new Animal(
-				"Luna",
-					Especie.GATO,
-					Porte.PEQUENO,
-					SexoAnimal.FEMEA,
-					2,
-				"Dócil",
+				dadosAnimal("Dócil"),
 				UUID.randomUUID(),
 				List.of(Tag.DOCIL, Tag.CARINHOSO),
 				"animais/luna"
@@ -176,5 +166,13 @@ class AnimalServiceTest {
 
 	private Adotante novoAdotante(String nome) {
 		return new Adotante(nome, "Rua das Flores, 123", nome.replace(" ", ".") + "@email.com", "senha123", "12345678901", List.of(Tag.DOCIL));
+	}
+
+	private Animal novoAnimal(UUID larId) {
+		return new Animal(dadosAnimal("Dócil"), larId, List.of(), null);
+	}
+
+	private DadosAnimal dadosAnimal(String descricao) {
+		return new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, descricao);
 	}
 }

@@ -22,16 +22,13 @@ import java.util.UUID;
 public class AnimalService {
 
 	private final AnimalRepository animalRepository;
-	private final AdotanteRepository adotanteRepository;
 	private final OperadorRepository operadorRepository;
 
 	public AnimalService(
 			AnimalRepository animalRepository,
-			AdotanteRepository adotanteRepository,
 			OperadorRepository operadorRepository
 	) {
 		this.animalRepository = animalRepository;
-		this.adotanteRepository = adotanteRepository;
 		this.operadorRepository = operadorRepository;
 	}
 
@@ -39,13 +36,8 @@ public class AnimalService {
 		Operador operador = operadorRepository.findById(operadorId)
 				.orElseThrow(() -> new IdentidadeNaoAutenticadaException("Operador não autenticado."));
 		Animal animal = new Animal(
-				request.nome(),
-					request.especie(),
-					request.porte(),
-					request.sexo(),
-					request.idade(),
-					request.descricao(),
-					operador.getLar().getId(),
+				request.toDadosAnimal(),
+				operador.getLar().getId(),
 				request.tags(),
 				request.cloudinaryPublicId()
 		);

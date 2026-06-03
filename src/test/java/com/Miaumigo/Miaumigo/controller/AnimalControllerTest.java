@@ -95,6 +95,7 @@ class AnimalControllerTest {
 					"nome": "Thor",
 					"especie": "CACHORRO",
 					"porte": "MEDIO",
+					"sexo": "MACHO",
 					"idade": 3,
 					"tags": [
 						"BRINCALHAO",
@@ -155,12 +156,32 @@ class AnimalControllerTest {
 	}
 
 	@Test
+	void deveRetornarBadRequest_quandoSexoNaoInformado() throws Exception {
+		String request = """
+				{
+					"nome": "Luna",
+					"especie": "GATO",
+					"porte": "PEQUENO",
+					"idade": 2
+				}
+				""";
+
+		mockMvc.perform(post("/api/v1/animais")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(request))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.mensagem").value("Dados inválidos"))
+				.andExpect(jsonPath("$.erros").isArray());
+	}
+
+	@Test
 	void deveRetornarBadRequest_quandoRegraDeDominioFalhar() throws Exception {
 		String request = """
 				{
 					"nome": "Luna",
 					"especie": "GATO",
 					"porte": "PEQUENO",
+					"sexo": "FEMEA",
 					"idade": 2,
 					"descricao": "Dócil e tranquila",
 					"tags": ["DOCIL"],
@@ -185,6 +206,7 @@ class AnimalControllerTest {
 					"nome": "Luna",
 					"especie": "GATO",
 					"porte": "PEQUENO",
+					"sexo": "FEMEA",
 					"idade": 2,
 					"descricao": "Dócil e tranquila",
 					"tags": ["DOCIL"],

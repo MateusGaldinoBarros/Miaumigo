@@ -1,6 +1,7 @@
 package com.Miaumigo.Miaumigo.dto;
 
 import com.Miaumigo.Miaumigo.domain.Especie;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Porte;
 import com.Miaumigo.Miaumigo.domain.SexoAnimal;
 import com.Miaumigo.Miaumigo.domain.Tag;
@@ -21,6 +22,7 @@ public record CadastroAnimalRequest(
 		@NotNull(message = "Porte do animal é obrigatório")
 		Porte porte,
 
+		@NotNull(message = "Sexo do animal é obrigatório")
 		SexoAnimal sexo,
 
 		@PositiveOrZero(message = "Idade do animal não pode ser negativa")
@@ -35,4 +37,7 @@ public record CadastroAnimalRequest(
 			@JsonProperty("cloudinary_public_id")
 			String cloudinaryPublicId
 ) {
+	public DadosAnimal toDadosAnimal() {
+		return new DadosAnimal(nome, especie, porte, sexo, idade, descricao);
+	}
 }

@@ -3,10 +3,12 @@ package com.Miaumigo.Miaumigo.service;
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
 import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Especie;
 import com.Miaumigo.Miaumigo.domain.Lar;
 import com.Miaumigo.Miaumigo.domain.Operador;
 import com.Miaumigo.Miaumigo.domain.Porte;
+import com.Miaumigo.Miaumigo.domain.SexoAnimal;
 import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
 import com.Miaumigo.Miaumigo.repository.AdotanteRepository;
 import com.Miaumigo.Miaumigo.repository.AnimalRepository;
@@ -51,7 +53,10 @@ class SolicitacaoAdocaoFluxoTest {
 				"Ana", "Rua Lar", "ana@email.com", "senha", "11122233344", lar
 		));
 		Animal animal = animalRepository.save(new Animal(
-				"Luna", Especie.GATO, Porte.PEQUENO, 2, "Calma", lar.getId()
+				new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Calma"),
+				lar.getId(),
+				List.of(),
+				null
 		));
 		Adotante maria = adotanteRepository.save(novoAdotante("Maria", "maria@email.com", "12345678901"));
 		Adotante joao = adotanteRepository.save(novoAdotante("Joao", "joao@email.com", "98765432109"));

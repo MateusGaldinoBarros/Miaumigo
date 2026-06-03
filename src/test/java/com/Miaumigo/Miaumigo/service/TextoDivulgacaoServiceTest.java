@@ -3,8 +3,10 @@ package com.Miaumigo.Miaumigo.service;
 import com.Miaumigo.Miaumigo.client.GeminiClient;
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Especie;
 import com.Miaumigo.Miaumigo.domain.Porte;
+import com.Miaumigo.Miaumigo.domain.SexoAnimal;
 import com.Miaumigo.Miaumigo.domain.Tag;
 import com.Miaumigo.Miaumigo.dto.TextoDivulgacaoResponse;
 import com.Miaumigo.Miaumigo.dto.gemini.GeminiGenerateContentRequest;
@@ -45,8 +47,10 @@ class TextoDivulgacaoServiceTest {
 	void deveGerarTexto_quandoAnimalDisponivel() {
 		UUID id = UUID.randomUUID();
 		Animal animal = new Animal(
-				"Luna", Especie.GATO, Porte.PEQUENO, 2, "Calma e carinhosa",
-				UUID.randomUUID(), List.of(Tag.CALMO, Tag.CARINHOSO), null
+				new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Calma e carinhosa"),
+				UUID.randomUUID(),
+				List.of(Tag.CALMO, Tag.CARINHOSO),
+				null
 		);
 		when(animalRepository.findById(id)).thenReturn(Optional.of(animal));
 		when(geminiClient.gerarConteudo(eq("gemini-2.5-flash"), eq("api-key-teste"), any()))
@@ -69,7 +73,7 @@ class TextoDivulgacaoServiceTest {
 	@Test
 	void deveOmitirDadosOpcionaisAusentesDoPrompt() {
 		UUID id = UUID.randomUUID();
-		Animal animal = new Animal("Bob", Especie.CACHORRO, Porte.MEDIO, null, null, UUID.randomUUID());
+		Animal animal = novoAnimal("Bob", Especie.CACHORRO, Porte.MEDIO, SexoAnimal.MACHO, null, null);
 		when(animalRepository.findById(id)).thenReturn(Optional.of(animal));
 		when(geminiClient.gerarConteudo(any(), any(), any())).thenReturn(response("Texto"));
 
@@ -87,7 +91,7 @@ class TextoDivulgacaoServiceTest {
 	@Test
 	void deveRejeitarAnimalNaoDisponivel_semConsultarGemini() {
 		UUID id = UUID.randomUUID();
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, null, UUID.randomUUID());
+		Animal animal = novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, null);
 		animal.realizarAdocao(new Adotante(
 				"Maria", "Rua Um", "maria@email.com", "senha", "12345678901", List.of()
 		));
@@ -112,7 +116,7 @@ class TextoDivulgacaoServiceTest {
 	void deveConverterFalhaDoGeminiEmErroDeIntegracao() {
 		UUID id = UUID.randomUUID();
 		when(animalRepository.findById(id)).thenReturn(Optional.of(
-				new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, null, UUID.randomUUID())
+				novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, null)
 		));
 		when(geminiClient.gerarConteudo(any(), any(), any())).thenThrow(new RuntimeException("timeout"));
 
@@ -125,7 +129,7 @@ class TextoDivulgacaoServiceTest {
 	void deveRejeitarRespostaSemTexto() {
 		UUID id = UUID.randomUUID();
 		when(animalRepository.findById(id)).thenReturn(Optional.of(
-				new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, null, UUID.randomUUID())
+				novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, null)
 		));
 		when(geminiClient.gerarConteudo(any(), any(), any()))
 				.thenReturn(new GeminiGenerateContentResponse(List.of()));
@@ -141,5 +145,9 @@ class TextoDivulgacaoServiceTest {
 						))
 				)
 		));
+	}
+
+	private Animal novoAnimal(String nome, Especie especie, Porte porte, SexoAnimal sexo, Integer idade, String descricao) {
+		return new Animal(new DadosAnimal(nome, especie, porte, sexo, idade, descricao), UUID.randomUUID(), List.of(), null);
 	}
 }
