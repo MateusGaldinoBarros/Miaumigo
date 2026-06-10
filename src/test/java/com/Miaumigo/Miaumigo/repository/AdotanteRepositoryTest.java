@@ -1,7 +1,7 @@
 package com.Miaumigo.Miaumigo.repository;
 
 import com.Miaumigo.Miaumigo.domain.Adotante;
-import com.Miaumigo.Miaumigo.domain.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

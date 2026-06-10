@@ -1,6 +1,6 @@
 package com.Miaumigo.Miaumigo.controller;
 
-import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
 import com.Miaumigo.Miaumigo.dto.SolicitacaoAdocaoResponse;
 import com.Miaumigo.Miaumigo.security.UsuarioAutenticadoService;
 import com.Miaumigo.Miaumigo.service.SolicitacaoAdocaoService;

@@ -1,6 +1,6 @@
 package com.Miaumigo.Miaumigo.controller;
 
-import com.Miaumigo.Miaumigo.domain.MensagemSuporteStatus;
+import com.Miaumigo.Miaumigo.domain.enums.MensagemSuporteStatus;
 import com.Miaumigo.Miaumigo.dto.MensagemSuporteResponse;
 import com.Miaumigo.Miaumigo.security.UsuarioAutenticadoService;
 import com.Miaumigo.Miaumigo.service.MensagemSuporteService;

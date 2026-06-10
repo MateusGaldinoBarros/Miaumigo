@@ -1,13 +1,13 @@
 package com.Miaumigo.Miaumigo.repository;
 
 import com.Miaumigo.Miaumigo.domain.Animal;
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.DadosAnimal;
-import com.Miaumigo.Miaumigo.domain.Especie;
-import com.Miaumigo.Miaumigo.domain.Porte;
-import com.Miaumigo.Miaumigo.domain.SexoAnimal;
-import com.Miaumigo.Miaumigo.domain.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

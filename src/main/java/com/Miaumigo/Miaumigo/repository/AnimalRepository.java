@@ -1,7 +1,7 @@
 package com.Miaumigo.Miaumigo.repository;
 
 import com.Miaumigo.Miaumigo.domain.Animal;
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

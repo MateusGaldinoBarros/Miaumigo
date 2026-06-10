@@ -1,5 +1,11 @@
 package com.Miaumigo.Miaumigo.domain;
 
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.ExperienciaAnimais;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.TempoDisponivel;
+import com.Miaumigo.Miaumigo.domain.enums.TipoMoradia;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;

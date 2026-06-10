@@ -1,6 +1,6 @@
 package com.Miaumigo.Miaumigo.dto;
 
-import com.Miaumigo.Miaumigo.domain.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
 
 import java.util.List;
 import java.util.UUID;

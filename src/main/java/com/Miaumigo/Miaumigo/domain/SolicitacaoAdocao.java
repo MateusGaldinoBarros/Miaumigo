@@ -1,5 +1,7 @@
 package com.Miaumigo.Miaumigo.domain;
 
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

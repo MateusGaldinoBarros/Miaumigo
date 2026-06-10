@@ -1,7 +1,7 @@
 package com.Miaumigo.Miaumigo.repository;
 
 import com.Miaumigo.Miaumigo.domain.SolicitacaoAdocao;
-import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

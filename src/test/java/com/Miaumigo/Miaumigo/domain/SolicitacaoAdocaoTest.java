@@ -1,5 +1,9 @@
 package com.Miaumigo.Miaumigo.domain;
 
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

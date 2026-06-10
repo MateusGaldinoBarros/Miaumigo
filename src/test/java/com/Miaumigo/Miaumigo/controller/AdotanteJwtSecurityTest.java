@@ -1,9 +1,9 @@
 package com.Miaumigo.Miaumigo.controller;
 
-import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
 import com.Miaumigo.Miaumigo.dto.MensagemSuporteResponse;
 import com.Miaumigo.Miaumigo.dto.SolicitacaoAdocaoResponse;
-import com.Miaumigo.Miaumigo.domain.MensagemSuporteStatus;
+import com.Miaumigo.Miaumigo.domain.enums.MensagemSuporteStatus;
 import com.Miaumigo.Miaumigo.service.MensagemSuporteService;
 import com.Miaumigo.Miaumigo.service.MatchmakingService;
 import com.Miaumigo.Miaumigo.service.SolicitacaoAdocaoService;

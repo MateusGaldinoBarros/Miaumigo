@@ -1,10 +1,10 @@
 package com.Miaumigo.Miaumigo.dto;
 
-import com.Miaumigo.Miaumigo.domain.Especie;
-import com.Miaumigo.Miaumigo.domain.Porte;
-import com.Miaumigo.Miaumigo.domain.SexoAnimal;
-import com.Miaumigo.Miaumigo.domain.Tag;
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

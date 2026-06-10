@@ -2,7 +2,7 @@ package com.Miaumigo.Miaumigo.service;
 
 import com.Miaumigo.Miaumigo.domain.Lar;
 import com.Miaumigo.Miaumigo.domain.Operador;
-import com.Miaumigo.Miaumigo.domain.Role;
+import com.Miaumigo.Miaumigo.domain.enums.Role;
 import com.Miaumigo.Miaumigo.dto.CadastroLarComOperadorRequest;
 import com.Miaumigo.Miaumigo.dto.CadastroLarComOperadorResponse;
 import com.Miaumigo.Miaumigo.dto.CadastroLarRequest;
