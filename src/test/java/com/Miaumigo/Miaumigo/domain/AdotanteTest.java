@@ -2,11 +2,14 @@ package com.Miaumigo.Miaumigo.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AdotanteTest {
 
@@ -17,6 +20,8 @@ class AdotanteTest {
 		assertEquals("Maria Silva", adotante.getNome());
 		assertEquals(List.of(Tag.DOCIL, Tag.CARINHOSO), adotante.getPreferencias());
 		assertEquals(List.of(), adotante.getLogs());
+		assertTrue(adotante.getCriadoEm() != null);
+		assertEquals(adotante.getCriadoEm(), adotante.getAtualizadoEm());
 	}
 
 	@Test
@@ -43,10 +48,54 @@ class AdotanteTest {
 	}
 
 	@Test
+	void deveAtualizarDataAtualizadoEm_quandoAdicionarLog() {
+		Adotante adotante = novoAdotante(List.of());
+
+		assertAtualizadoEmFoiAtualizado(adotante, a -> a.adicionarLog("Adotou Luna."));
+	}
+
+	@Test
+	void deveAtualizarDataAtualizadoEm_quandoAtualizarPerfil() {
+		Adotante adotante = novoAdotante(List.of());
+
+		assertAtualizadoEmFoiAtualizado(adotante, a -> a.atualizarPerfil(
+				List.of(Especie.GATO),
+				List.of(Tag.CALMO),
+				TipoMoradia.APARTAMENTO,
+				Porte.PEQUENO,
+				TempoDisponivel.UMA_HORA,
+				ExperienciaAnimais.PRIMEIRA_ADOCAO,
+				false,
+				false,
+				true,
+				"81999999999",
+				"Recife"
+		));
+	}
+
+	@Test
 	void deveLancarExcecao_quandoLogSemMensagem() {
 		Adotante adotante = novoAdotante(List.of());
 
 		assertThrows(IllegalArgumentException.class, () -> adotante.adicionarLog(" "));
+	}
+
+	private void assertAtualizadoEmFoiAtualizado(Adotante adotante, Consumer<Adotante> acao) {
+		LocalDateTime atualizadoEmAnterior = adotante.getAtualizadoEm();
+		aguardarProximoInstante();
+
+		acao.accept(adotante);
+
+		assertTrue(adotante.getAtualizadoEm().isAfter(atualizadoEmAnterior));
+	}
+
+	private void aguardarProximoInstante() {
+		try {
+			Thread.sleep(5);
+		} catch (InterruptedException exception) {
+			Thread.currentThread().interrupt();
+			throw new IllegalStateException("Teste interrompido.", exception);
+		}
 	}
 
 	private Adotante novoAdotante(List<Tag> preferencias) {

@@ -33,6 +33,8 @@ class AdotanteRepositoryTest {
 		assertEquals("Maria Silva", adotanteEncontrado.get().getNome());
 		assertEquals(List.of(Tag.CALMO, Tag.CONVIVE_COM_GATOS), adotanteEncontrado.get().getPreferencias());
 		assertEquals(List.of("Adotou Luna."), adotanteEncontrado.get().getLogs());
+		assertTrue(adotanteEncontrado.get().getCriadoEm() != null);
+		assertTrue(adotanteEncontrado.get().getAtualizadoEm() != null);
 	}
 
 	@Test

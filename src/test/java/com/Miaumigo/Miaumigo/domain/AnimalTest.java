@@ -160,7 +160,7 @@ class AnimalTest {
 		Adotante adotante = novoAdotante("Maria Silva");
 		animal.realizarAdocao(adotante);
 
-		Adotante adotanteAnterior = animal.devolver("Não se adaptou");
+		Adotante adotanteAnterior = animal.registrarDevolucao("Não se adaptou");
 
 		assertEquals(adotante, adotanteAnterior);
 		assertEquals(AnimalStatus.DISPONIVEL, animal.getStatus());
@@ -175,7 +175,7 @@ class AnimalTest {
 		Adotante primeiroAdotante = novoAdotante("Maria Silva");
 		Adotante segundoAdotante = novoAdotante("João Souza");
 		animal.realizarAdocao(primeiroAdotante);
-		animal.devolver(null);
+		animal.registrarDevolucao(null);
 
 		animal.realizarAdocao(segundoAdotante);
 
@@ -189,24 +189,17 @@ class AnimalTest {
 	void deveLancarExcecao_quandoDevolverAnimalNaoAdotado() {
 		Animal animal = novoAnimal();
 
-		assertThrows(IllegalStateException.class, () -> animal.devolver("Não se adaptou"));
+		assertThrows(IllegalStateException.class, () -> animal.registrarDevolucao("Não se adaptou"));
 	}
 
 	@Test
-	void deveAdicionarLog_quandoMensagemValida() {
+	void deveRegistrarLog_quandoTransferirParaLar() {
 		Animal animal = novoAnimal();
 
-		animal.adicionarLog("Recebeu vacina.");
+		animal.transferirParaLar(UUID.randomUUID());
 
 		assertEquals(2, animal.getLogs().size());
-		assertEquals("Recebeu vacina.", animal.getLogs().get(1));
-	}
-
-	@Test
-	void deveLancarExcecao_quandoLogSemMensagem() {
-		Animal animal = novoAnimal();
-
-		assertThrows(IllegalArgumentException.class, () -> animal.adicionarLog(" "));
+		assertEquals("Animal transferido para outro lar.", animal.getLogs().get(1));
 	}
 
 	@Test
@@ -251,14 +244,7 @@ class AnimalTest {
 		Animal animal = novoAnimal();
 		animal.realizarAdocao(novoAdotante("Maria Silva"));
 
-		assertAtualizadoEmFoiAtualizado(animal, a -> a.devolver("Não se adaptou"));
-	}
-
-	@Test
-	void deveAtualizarDataAtualizadoEm_quandoAdicionarLog() {
-		Animal animal = novoAnimal();
-
-		assertAtualizadoEmFoiAtualizado(animal, a -> a.adicionarLog("Recebeu vacina."));
+		assertAtualizadoEmFoiAtualizado(animal, a -> a.registrarDevolucao("Não se adaptou"));
 	}
 
 	private void assertAtualizadoEmFoiAtualizado(Animal animal, Consumer<Animal> acao) {
