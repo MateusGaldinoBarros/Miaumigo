@@ -1,12 +1,12 @@
 package com.Miaumigo.Miaumigo.controller;
 
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
-import com.Miaumigo.Miaumigo.domain.Especie;
-import com.Miaumigo.Miaumigo.domain.Porte;
-import com.Miaumigo.Miaumigo.domain.SexoAnimal;
-import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
-import com.Miaumigo.Miaumigo.domain.Role;
-import com.Miaumigo.Miaumigo.domain.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
+import com.Miaumigo.Miaumigo.domain.enums.Role;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
 import com.Miaumigo.Miaumigo.dto.AnimalResponse;
 import com.Miaumigo.Miaumigo.dto.CadastroLarComOperadorResponse;
 import com.Miaumigo.Miaumigo.dto.LarResponse;

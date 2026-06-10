@@ -2,7 +2,7 @@ package com.Miaumigo.Miaumigo.service;
 
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.MensagemSuporte;
-import com.Miaumigo.Miaumigo.domain.MensagemSuporteStatus;
+import com.Miaumigo.Miaumigo.domain.enums.MensagemSuporteStatus;
 import com.Miaumigo.Miaumigo.dto.MensagemSuporteRequest;
 import com.Miaumigo.Miaumigo.dto.MensagemSuporteResponse;
 import com.Miaumigo.Miaumigo.exception.IdentidadeNaoAutenticadaException;

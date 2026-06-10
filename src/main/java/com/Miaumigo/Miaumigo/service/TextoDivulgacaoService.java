@@ -2,7 +2,7 @@ package com.Miaumigo.Miaumigo.service;
 
 import com.Miaumigo.Miaumigo.client.GeminiClient;
 import com.Miaumigo.Miaumigo.domain.Animal;
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
 import com.Miaumigo.Miaumigo.dto.TextoDivulgacaoResponse;
 import com.Miaumigo.Miaumigo.dto.gemini.GeminiGenerateContentRequest;
 import com.Miaumigo.Miaumigo.dto.gemini.GeminiGenerateContentResponse;

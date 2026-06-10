@@ -1,6 +1,6 @@
 package com.Miaumigo.Miaumigo.dto;
 
-import com.Miaumigo.Miaumigo.domain.MensagemSuporteStatus;
+import com.Miaumigo.Miaumigo.domain.enums.MensagemSuporteStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;

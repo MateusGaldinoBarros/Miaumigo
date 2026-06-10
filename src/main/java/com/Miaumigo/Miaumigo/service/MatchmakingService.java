@@ -2,12 +2,12 @@ package com.Miaumigo.Miaumigo.service;
 
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
-import com.Miaumigo.Miaumigo.domain.ExperienciaAnimais;
-import com.Miaumigo.Miaumigo.domain.Porte;
-import com.Miaumigo.Miaumigo.domain.Tag;
-import com.Miaumigo.Miaumigo.domain.TempoDisponivel;
-import com.Miaumigo.Miaumigo.domain.TipoMoradia;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.ExperienciaAnimais;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.TempoDisponivel;
+import com.Miaumigo.Miaumigo.domain.enums.TipoMoradia;
 import com.Miaumigo.Miaumigo.dto.AnimalRecomendadoResponse;
 import com.Miaumigo.Miaumigo.exception.IdentidadeNaoAutenticadaException;
 import com.Miaumigo.Miaumigo.repository.AdotanteRepository;

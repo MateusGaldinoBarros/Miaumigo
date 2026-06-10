@@ -1,4 +1,4 @@
-package com.Miaumigo.Miaumigo.domain;
+package com.Miaumigo.Miaumigo.domain.enums;
 
 public enum SexoAnimal {
 	MACHO,

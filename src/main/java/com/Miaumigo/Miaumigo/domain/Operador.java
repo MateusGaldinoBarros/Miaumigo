@@ -1,5 +1,6 @@
 package com.Miaumigo.Miaumigo.domain;
 
+import com.Miaumigo.Miaumigo.domain.enums.Role;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;

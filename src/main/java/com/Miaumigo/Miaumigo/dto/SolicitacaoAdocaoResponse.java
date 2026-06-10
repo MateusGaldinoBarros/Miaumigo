@@ -1,6 +1,6 @@
 package com.Miaumigo.Miaumigo.dto;
 
-import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;

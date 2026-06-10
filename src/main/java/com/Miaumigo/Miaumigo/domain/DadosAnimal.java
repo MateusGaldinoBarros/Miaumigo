@@ -1,5 +1,8 @@
 package com.Miaumigo.Miaumigo.domain;
 
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.EnumType;

@@ -1,6 +1,6 @@
 package com.Miaumigo.Miaumigo.dto;
 
-import com.Miaumigo.Miaumigo.domain.Role;
+import com.Miaumigo.Miaumigo.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;

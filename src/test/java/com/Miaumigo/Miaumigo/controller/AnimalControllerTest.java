@@ -1,10 +1,11 @@
 package com.Miaumigo.Miaumigo.controller;
 
-import com.Miaumigo.Miaumigo.domain.Especie;
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
-import com.Miaumigo.Miaumigo.domain.Porte;
-import com.Miaumigo.Miaumigo.domain.SexoAnimal;
-import com.Miaumigo.Miaumigo.domain.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
 import com.Miaumigo.Miaumigo.dto.AnimalResponse;
 import com.Miaumigo.Miaumigo.dto.SolicitacaoAdocaoResponse;
 import com.Miaumigo.Miaumigo.dto.TextoDivulgacaoResponse;
@@ -230,7 +231,7 @@ class AnimalControllerTest {
 		UUID adotanteId = UUID.fromString("22222222-2222-2222-2222-222222222222");
 		when(usuarioAutenticadoService.exigirAdotante(any())).thenReturn(adotanteId);
 		when(solicitacaoService.criar(id, adotanteId)).thenReturn(new SolicitacaoAdocaoResponse(
-				UUID.randomUUID(), id, "Luna", adotanteId, "Maria", com.Miaumigo.Miaumigo.domain.SolicitacaoStatus.PENDENTE,
+				UUID.randomUUID(), id, "Luna", adotanteId, "Maria", SolicitacaoStatus.PENDENTE,
 				LocalDateTime.now(), LocalDateTime.now()
 		));
 

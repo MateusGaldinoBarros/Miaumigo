@@ -1,12 +1,12 @@
 package com.Miaumigo.Miaumigo.service;
 
 import com.Miaumigo.Miaumigo.domain.Adotante;
-import com.Miaumigo.Miaumigo.domain.Especie;
-import com.Miaumigo.Miaumigo.domain.ExperienciaAnimais;
-import com.Miaumigo.Miaumigo.domain.Porte;
-import com.Miaumigo.Miaumigo.domain.Tag;
-import com.Miaumigo.Miaumigo.domain.TempoDisponivel;
-import com.Miaumigo.Miaumigo.domain.TipoMoradia;
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.ExperienciaAnimais;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
+import com.Miaumigo.Miaumigo.domain.enums.TempoDisponivel;
+import com.Miaumigo.Miaumigo.domain.enums.TipoMoradia;
 import com.Miaumigo.Miaumigo.dto.AdotanteMeResponse;
 import com.Miaumigo.Miaumigo.dto.AdotanteResponse;
 import com.Miaumigo.Miaumigo.dto.CadastroAdotanteRequest;

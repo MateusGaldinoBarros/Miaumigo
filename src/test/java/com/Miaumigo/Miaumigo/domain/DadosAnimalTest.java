@@ -1,5 +1,8 @@
 package com.Miaumigo.Miaumigo.domain;
 
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

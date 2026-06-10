@@ -1,5 +1,10 @@
 package com.Miaumigo.Miaumigo.domain;
 
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.Especie;
+import com.Miaumigo.Miaumigo.domain.enums.Porte;
+import com.Miaumigo.Miaumigo.domain.enums.SexoAnimal;
+import com.Miaumigo.Miaumigo.domain.enums.Tag;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

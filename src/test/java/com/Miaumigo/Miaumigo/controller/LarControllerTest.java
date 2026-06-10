@@ -1,7 +1,7 @@
 package com.Miaumigo.Miaumigo.controller;
 
-import com.Miaumigo.Miaumigo.domain.Role;
-import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
+import com.Miaumigo.Miaumigo.domain.enums.Role;
+import com.Miaumigo.Miaumigo.domain.enums.SolicitacaoStatus;
 import com.Miaumigo.Miaumigo.dto.CadastroLarComOperadorResponse;
 import com.Miaumigo.Miaumigo.dto.LarResponse;
 import com.Miaumigo.Miaumigo.dto.OperadorResponse;

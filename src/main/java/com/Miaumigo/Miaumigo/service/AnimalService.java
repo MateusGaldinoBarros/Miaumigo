@@ -2,7 +2,7 @@ package com.Miaumigo.Miaumigo.service;
 
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
-import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.enums.AnimalStatus;
 import com.Miaumigo.Miaumigo.domain.Operador;
 import com.Miaumigo.Miaumigo.dto.AcaoRealizadaResponse;
 import com.Miaumigo.Miaumigo.dto.AnimalResponse;

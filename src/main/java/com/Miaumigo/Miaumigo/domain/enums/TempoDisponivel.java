@@ -1,4 +1,4 @@
-package com.Miaumigo.Miaumigo.domain;
+package com.Miaumigo.Miaumigo.domain.enums;
 
 public enum TempoDisponivel {
 	ATE_30_MIN,
