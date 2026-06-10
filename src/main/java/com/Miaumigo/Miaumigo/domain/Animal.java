@@ -12,6 +12,10 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "animais")
+@AssociationOverride(
+		name = "historico.logs",
+		joinTable = @JoinTable(name = "animal_logs", joinColumns = @JoinColumn(name = "animal_id"))
+)
 public class Animal {
 
 	@Id
@@ -56,11 +60,8 @@ public class Animal {
 	@Column(name = "lar_id", nullable = false)
 	private UUID larId;
 
-	@Column(name = "criado_em", nullable = false, updatable = false)
-	private LocalDateTime criadoEm;
-
-	@Column(name = "atualizado_em", nullable = false)
-	private LocalDateTime atualizadoEm;
+	@Embedded
+	private Historico historico;
 
 	protected Animal() {
 	}
@@ -72,9 +73,7 @@ public class Animal {
 		this.tags = normalizarTags(tags);
 		this.cloudinaryPublicId = normalizarTextoOpcional(cloudinaryPublicId);
 		this.status = AnimalStatus.DISPONIVEL;
-		this.criadoEm = LocalDateTime.now();
-		this.atualizadoEm = this.criadoEm;
-		this.logs.add("Animal cadastrado.");
+		this.historico = Historico.criarComLogInicial("Animal cadastrado.");
 	}
 	public UUID getId() {
 		return id;
@@ -90,14 +89,12 @@ public class Animal {
 		}
 		validarLar(larId);
 		this.larId = larId;
-		adicionarLog("Animal transferido para outro lar.");
-		this.atualizadoEm = LocalDateTime.now();
+		this.historico.adicionarLog("Animal transferido para outro lar.");
 	}
 
 	public void disponibilizar() {
 		this.status = AnimalStatus.DISPONIVEL;
-		adicionarLog("Animal disponibilizado para adoção.");
-		this.atualizadoEm = LocalDateTime.now();
+		this.historico.adicionarLog("Animal disponibilizado para adoção.");
 	}
 
 	public void iniciarProcessoAdocao() {
@@ -105,19 +102,18 @@ public class Animal {
 			throw new IllegalStateException("Apenas animais disponíveis podem iniciar processo de adoção.");
 		}
 		this.status = AnimalStatus.EM_PROCESSO;
-		adicionarLog("Processo de adoção iniciado.");
-		this.atualizadoEm = LocalDateTime.now();
+		this.historico.adicionarLog("Processo de adoção iniciado.");
 	}
-
+	//Marca como adotado quando está em processo de adoção
 	public void marcarComoAdotado() {
 		if (this.status != AnimalStatus.EM_PROCESSO) {
 			throw new IllegalStateException("Apenas animais em processo de adoção podem ser marcados como adotados.");
 		}
 		this.status = AnimalStatus.ADOTADO;
-		adicionarLog("Animal marcado como adotado.");
-		this.atualizadoEm = LocalDateTime.now();
+		this.historico.adicionarLog("Animal marcado como adotado.");
 	}
 
+	//Marca como adotado quando o animal ainda está disponivel
 	public void realizarAdocao(Adotante adotante) {
 		if (this.status != AnimalStatus.DISPONIVEL) {
 			throw new IllegalStateException("Apenas animais disponíveis podem ser adotados.");
@@ -129,10 +125,11 @@ public class Animal {
 		this.adotanteAtual = adotante;
 		this.adotantes.add(adotante);
 		this.status = AnimalStatus.ADOTADO;
-		adicionarLog("Adotado por " + adotante.getNome() + ".");
+		this.historico.adicionarLog("Adotado por " + adotante.getNome() + ".");
 	}
 
-	public Adotante devolver(String motivo) {
+	//Verbo do metodo da a indicar que o animal se devolve quando ele apenas registra a devolução e muda o estado
+	public Adotante registrarDevolucao(String motivo) {
 		if (this.status != AnimalStatus.ADOTADO || this.adotanteAtual == null) {
 			throw new IllegalStateException("Apenas animais adotados podem ser devolvidos.");
 		}
@@ -141,21 +138,11 @@ public class Animal {
 		this.status = AnimalStatus.DISPONIVEL;
 		String motivoNormalizado = normalizarTextoOpcional(motivo);
 		if (motivoNormalizado == null) {
-			adicionarLog("Animal devolvido por " + adotanteAnterior.getNome() + ".");
+			this.historico.adicionarLog("Animal devolvido por " + adotanteAnterior.getNome() + ".");
 		} else {
-			adicionarLog("Animal devolvido por " + adotanteAnterior.getNome() + ". Motivo: " + motivoNormalizado + ".");
+			this.historico.adicionarLog("Animal devolvido por " + adotanteAnterior.getNome() + ". Motivo: " + motivoNormalizado + ".");
 		}
-		this.atualizadoEm = LocalDateTime.now();
 		return adotanteAnterior;
-	}
-
-	public void adicionarLog(String mensagem) {
-		String mensagemNormalizada = normalizarTextoOpcional(mensagem);
-		if (mensagemNormalizada == null) {
-			throw new IllegalArgumentException("Mensagem do log é obrigatória.");
-		}
-		this.logs.add(mensagemNormalizada);
-		this.atualizadoEm = LocalDateTime.now();
 	}
 
 	public Especie getEspecie() {
@@ -183,7 +170,7 @@ public class Animal {
 	}
 
 	public List<String> getLogs() {
-		return List.copyOf(logs);
+		return historico.getLogs();
 	}
 
 	public String getCloudinaryPublicId() {
@@ -207,13 +194,14 @@ public class Animal {
 	}
 
 	public LocalDateTime getCriadoEm() {
-		return criadoEm;
+		return historico.getCriadoEm();
 	}
 
 	public LocalDateTime getAtualizadoEm() {
-		return atualizadoEm;
+		return historico.getAtualizadoEm();
 	}
 
+	//Realmente precisa ser um metodo proprio?
 	private void validarLar(UUID larId) {
 		if (larId == null) {
 			throw new IllegalArgumentException("Lar do animal é obrigatório.");

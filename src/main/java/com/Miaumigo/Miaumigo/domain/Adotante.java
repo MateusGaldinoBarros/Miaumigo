@@ -3,19 +3,27 @@ package com.Miaumigo.Miaumigo.domain;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.AssociationOverride;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OrderColumn;
 import jakarta.persistence.Table;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 //ultima versão
 @Entity
 @Table(name = "adotantes")
+@AssociationOverride(
+		name = "historico.logs",
+		joinTable = @JoinTable(name = "adotante_logs", joinColumns = @JoinColumn(name = "adotante_id"))
+)
 public class Adotante extends Usuario {
 
 	@ElementCollection
@@ -63,11 +71,8 @@ public class Adotante extends Usuario {
 	@Column(name = "cidade")
 	private String cidade;
 
-	@ElementCollection
-	@CollectionTable(name = "adotante_logs", joinColumns = @JoinColumn(name = "adotante_id"))
-	@Column(name = "mensagem", nullable = false, length = 1000)
-	@OrderColumn(name = "ordem")
-	private List<String> logs = new ArrayList<>();
+	@Embedded
+	private Historico historico;
 
 	protected Adotante() {
 	}
@@ -75,6 +80,7 @@ public class Adotante extends Usuario {
 	public Adotante(String nome, String endereco, String email, String senha, String cpf, List<Tag> preferencias) {
 		super(nome, endereco, email, senha, cpf);
 		this.preferencias = normalizarPreferencias(preferencias);
+		this.historico = Historico.criar();
 	}
 
 	public List<Tag> getPreferencias() {
@@ -157,18 +163,23 @@ public class Adotante extends Usuario {
 		this.possuiGatos = possuiGatos;
 		this.telefone = normalizarTextoOpcional(telefone);
 		this.cidade = normalizarTextoOpcional(cidade);
+		this.historico.marcarAtualizacao();
 	}
 
 	public List<String> getLogs() {
-		return List.copyOf(logs);
+		return historico.getLogs();
+	}
+
+	public LocalDateTime getCriadoEm() {
+		return historico.getCriadoEm();
+	}
+
+	public LocalDateTime getAtualizadoEm() {
+		return historico.getAtualizadoEm();
 	}
 
 	public void adicionarLog(String mensagem) {
-		String mensagemNormalizada = normalizarTextoOpcional(mensagem);
-		if (mensagemNormalizada == null) {
-			throw new IllegalArgumentException("Mensagem do log é obrigatória.");
-		}
-		this.logs.add(mensagemNormalizada);
+		this.historico.adicionarLog(mensagem);
 	}
 
 	private List<Tag> normalizarPreferencias(List<Tag> preferencias) {

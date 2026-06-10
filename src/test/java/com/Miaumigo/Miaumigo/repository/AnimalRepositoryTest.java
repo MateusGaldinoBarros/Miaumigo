@@ -40,7 +40,7 @@ class AnimalRepositoryTest {
 				List.of(Tag.CARINHOSO, Tag.ADAPTADO_A_APARTAMENTO, Tag.CONVIVE_COM_CRIANCAS),
 				"animais/luna"
 		);
-		animal.adicionarLog("Recebeu vacina.");
+		animal.transferirParaLar(UUID.randomUUID());
 
 		Animal animalSalvo = animalRepository.save(animal);
 
@@ -60,7 +60,7 @@ class AnimalRepositoryTest {
 		Adotante segundoAdotante = adotanteRepository.save(novoAdotante("João Souza", "joao@email.com", "98765432109"));
 		Animal animal = novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
 		animal.realizarAdocao(primeiroAdotante);
-		animal.devolver("Não se adaptou");
+		animal.registrarDevolucao("Não se adaptou");
 		animal.realizarAdocao(segundoAdotante);
 
 		Animal animalSalvo = animalRepository.saveAndFlush(animal);

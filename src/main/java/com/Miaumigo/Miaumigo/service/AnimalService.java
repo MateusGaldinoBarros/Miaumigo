@@ -9,7 +9,6 @@ import com.Miaumigo.Miaumigo.dto.AnimalResponse;
 import com.Miaumigo.Miaumigo.dto.CadastroAnimalRequest;
 import com.Miaumigo.Miaumigo.exception.IdentidadeNaoAutenticadaException;
 import com.Miaumigo.Miaumigo.exception.RecursoNaoEncontradoException;
-import com.Miaumigo.Miaumigo.repository.AdotanteRepository;
 import com.Miaumigo.Miaumigo.repository.AnimalRepository;
 import com.Miaumigo.Miaumigo.repository.OperadorRepository;
 import org.springframework.stereotype.Service;
@@ -65,7 +64,7 @@ public class AnimalService {
 		Animal animal = animalRepository.findById(id)
 				.orElseThrow(() -> new RecursoNaoEncontradoException("Animal não encontrado."));
 
-		Adotante adotante = animal.devolver(motivo);
+		Adotante adotante = animal.registrarDevolucao(motivo);
 		adotante.adicionarLog("Devolveu " + animal.getNome() + ".");
 		animalRepository.save(animal);
 
