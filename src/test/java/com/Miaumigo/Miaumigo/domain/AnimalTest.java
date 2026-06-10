@@ -18,7 +18,7 @@ class AnimalTest {
 	void deveCriarAnimalDisponivel_quandoDadosValidos() {
 		UUID larId = UUID.randomUUID();
 
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", larId);
+		Animal animal = novoAnimal(larId);
 
 		assertEquals("Luna", animal.getNome());
 		assertEquals(AnimalStatus.DISPONIVEL, animal.getStatus());
@@ -33,11 +33,7 @@ class AnimalTest {
 		UUID larId = UUID.randomUUID();
 
 		Animal animal = new Animal(
-				"Luna",
-				Especie.GATO,
-				Porte.PEQUENO,
-				2,
-				"Dócil",
+				dadosAnimal(),
 				larId,
 				Arrays.asList(Tag.DOCIL, Tag.CARINHOSO, Tag.DOCIL, null),
 				" animais/luna "
@@ -50,24 +46,24 @@ class AnimalTest {
 	@Test
 	void deveLancarExcecao_quandoNomeVazio() {
 		assertThrows(IllegalArgumentException.class, () ->
-				new Animal(" ", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID()));
+				new DadosAnimal(" ", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Dócil"));
 	}
 
 	@Test
 	void deveLancarExcecao_quandoIdadeNegativa() {
 		assertThrows(IllegalArgumentException.class, () ->
-				new Animal("Luna", Especie.GATO, Porte.PEQUENO, -1, "Dócil", UUID.randomUUID()));
+				new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, -1, "Dócil"));
 	}
 
 	@Test
 	void deveLancarExcecao_quandoLarNulo() {
 		assertThrows(IllegalArgumentException.class, () ->
-				new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", null));
+				new Animal(dadosAnimal(), null, List.of(), null));
 	}
 
 	@Test
 	void deveTransferirParaLar_quandoAnimalDisponivel() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		UUID novoLarId = UUID.randomUUID();
 
 		animal.transferirParaLar(novoLarId);
@@ -77,7 +73,7 @@ class AnimalTest {
 
 	@Test
 	void deveLancarExcecao_quandoTransferirAnimalEmProcesso() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.iniciarProcessoAdocao();
 
 		assertThrows(IllegalStateException.class, () -> animal.transferirParaLar(UUID.randomUUID()));
@@ -85,7 +81,7 @@ class AnimalTest {
 
 	@Test
 	void devePermitirTransicaoParaEmProcesso_quandoAnimalDisponivel() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		animal.iniciarProcessoAdocao();
 
@@ -94,7 +90,7 @@ class AnimalTest {
 
 	@Test
 	void devePermitirTransicaoParaAdotado_quandoAnimalEmProcesso() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.iniciarProcessoAdocao();
 
 		animal.marcarComoAdotado();
@@ -104,7 +100,7 @@ class AnimalTest {
 
 	@Test
 	void devePermitirRetornarParaDisponivel_quandoAnimalEmProcesso() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.iniciarProcessoAdocao();
 
 		animal.disponibilizar();
@@ -114,7 +110,7 @@ class AnimalTest {
 
 	@Test
 	void devePermitirRetornarParaDisponivel_quandoAnimalAdotado() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.iniciarProcessoAdocao();
 		animal.marcarComoAdotado();
 
@@ -125,14 +121,14 @@ class AnimalTest {
 
 	@Test
 	void deveLancarExcecao_quandoMarcarComoAdotadoAnimalDisponivel() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertThrows(IllegalStateException.class, animal::marcarComoAdotado);
 	}
 
 	@Test
 	void deveRealizarAdocao_quandoAnimalDisponivel() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		Adotante adotante = novoAdotante("Maria Silva");
 
 		animal.realizarAdocao(adotante);
@@ -145,7 +141,7 @@ class AnimalTest {
 
 	@Test
 	void deveLancarExcecao_quandoRealizarAdocaoAnimalIndisponivel() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.iniciarProcessoAdocao();
 
 		assertThrows(IllegalStateException.class, () -> animal.realizarAdocao(novoAdotante("Maria Silva")));
@@ -153,14 +149,14 @@ class AnimalTest {
 
 	@Test
 	void deveLancarExcecao_quandoRealizarAdocaoSemAdotante() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertThrows(IllegalArgumentException.class, () -> animal.realizarAdocao(null));
 	}
 
 	@Test
 	void deveDevolverAnimal_quandoAnimalAdotado() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		Adotante adotante = novoAdotante("Maria Silva");
 		animal.realizarAdocao(adotante);
 
@@ -175,7 +171,7 @@ class AnimalTest {
 
 	@Test
 	void devePermitirNovaAdocao_quandoAnimalFoiDevolvido() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		Adotante primeiroAdotante = novoAdotante("Maria Silva");
 		Adotante segundoAdotante = novoAdotante("João Souza");
 		animal.realizarAdocao(primeiroAdotante);
@@ -191,14 +187,14 @@ class AnimalTest {
 
 	@Test
 	void deveLancarExcecao_quandoDevolverAnimalNaoAdotado() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertThrows(IllegalStateException.class, () -> animal.devolver("Não se adaptou"));
 	}
 
 	@Test
 	void deveAdicionarLog_quandoMensagemValida() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		animal.adicionarLog("Recebeu vacina.");
 
@@ -208,21 +204,21 @@ class AnimalTest {
 
 	@Test
 	void deveLancarExcecao_quandoLogSemMensagem() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertThrows(IllegalArgumentException.class, () -> animal.adicionarLog(" "));
 	}
 
 	@Test
 	void deveAtualizarDataAtualizadoEm_quandoTransferirParaLar() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertAtualizadoEmFoiAtualizado(animal, a -> a.transferirParaLar(UUID.randomUUID()));
 	}
 
 	@Test
 	void deveAtualizarDataAtualizadoEm_quandoDisponibilizar() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.iniciarProcessoAdocao();
 
 		assertAtualizadoEmFoiAtualizado(animal, Animal::disponibilizar);
@@ -230,14 +226,14 @@ class AnimalTest {
 
 	@Test
 	void deveAtualizarDataAtualizadoEm_quandoIniciarProcessoAdocao() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertAtualizadoEmFoiAtualizado(animal, Animal::iniciarProcessoAdocao);
 	}
 
 	@Test
 	void deveAtualizarDataAtualizadoEm_quandoMarcarComoAdotado() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.iniciarProcessoAdocao();
 
 		assertAtualizadoEmFoiAtualizado(animal, Animal::marcarComoAdotado);
@@ -245,14 +241,14 @@ class AnimalTest {
 
 	@Test
 	void deveAtualizarDataAtualizadoEm_quandoRealizarAdocao() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertAtualizadoEmFoiAtualizado(animal, a -> a.realizarAdocao(novoAdotante("Maria Silva")));
 	}
 
 	@Test
 	void deveAtualizarDataAtualizadoEm_quandoDevolver() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 		animal.realizarAdocao(novoAdotante("Maria Silva"));
 
 		assertAtualizadoEmFoiAtualizado(animal, a -> a.devolver("Não se adaptou"));
@@ -260,7 +256,7 @@ class AnimalTest {
 
 	@Test
 	void deveAtualizarDataAtualizadoEm_quandoAdicionarLog() {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal();
 
 		assertAtualizadoEmFoiAtualizado(animal, a -> a.adicionarLog("Recebeu vacina."));
 	}
@@ -285,5 +281,17 @@ class AnimalTest {
 
 	private Adotante novoAdotante(String nome) {
 		return new Adotante(nome, "Rua das Flores, 123", nome.replace(" ", ".") + "@email.com", "senha123", "12345678901", List.of());
+	}
+
+	private Animal novoAnimal() {
+		return novoAnimal(UUID.randomUUID());
+	}
+
+	private Animal novoAnimal(UUID larId) {
+		return new Animal(dadosAnimal(), larId, List.of(), null);
+	}
+
+	private DadosAnimal dadosAnimal() {
+		return new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Dócil");
 	}
 }

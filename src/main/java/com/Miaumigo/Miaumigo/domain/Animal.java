@@ -18,25 +18,8 @@ public class Animal {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@Column(nullable = false)
-	private String nome;
-
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private Especie especie;
-
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private Porte porte;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "sexo")
-	private SexoAnimal sexo;
-
-	private Integer idade;
-
-	@Column(length = 1000)
-	private String descricao;
+	@Embedded
+	private DadosAnimal dados;
 
 	@ElementCollection
 	@CollectionTable(name = "animal_tags", joinColumns = @JoinColumn(name = "animal_id"))
@@ -82,45 +65,9 @@ public class Animal {
 	protected Animal() {
 	}
 
-	public Animal(String nome, Especie especie, Porte porte, Integer idade, String descricao, UUID larId) {
-		this(nome, especie, porte, idade, descricao, larId, List.of(), null);
-	}
-
-	public Animal(String nome, Especie especie, Porte porte, SexoAnimal sexo, Integer idade, String descricao, UUID larId) {
-		this(nome, especie, porte, sexo, idade, descricao, larId, List.of(), null);
-	}
-
-	public Animal(
-			String nome,
-			Especie especie,
-			Porte porte,
-			Integer idade,
-			String descricao,
-			UUID larId,
-			List<Tag> tags,
-			String cloudinaryPublicId
-	) {
-		this(nome, especie, porte, null, idade, descricao, larId, tags, cloudinaryPublicId);
-	}
-
-	public Animal(
-			String nome,
-			Especie especie,
-			Porte porte,
-			SexoAnimal sexo,
-			Integer idade,
-			String descricao,
-			UUID larId,
-			List<Tag> tags,
-			String cloudinaryPublicId
-	) {
-		validarDados(nome, especie, porte, idade, larId);
-		this.nome = nome;
-		this.especie = especie;
-		this.porte = porte;
-		this.sexo = sexo;
-		this.idade = idade;
-		this.descricao = descricao;
+	public Animal(DadosAnimal dados, UUID larId, List<Tag> tags, String cloudinaryPublicId) {
+		this.dados = Objects.requireNonNull(dados, "Dados do animal são obrigatórios.");
+		validarLar(larId);
 		this.larId = larId;
 		this.tags = normalizarTags(tags);
 		this.cloudinaryPublicId = normalizarTextoOpcional(cloudinaryPublicId);
@@ -129,13 +76,12 @@ public class Animal {
 		this.atualizadoEm = this.criadoEm;
 		this.logs.add("Animal cadastrado.");
 	}
-
 	public UUID getId() {
 		return id;
 	}
 
 	public String getNome() {
-		return nome;
+		return dados.getNome();
 	}
 
 	public void transferirParaLar(UUID larId) {
@@ -213,23 +159,23 @@ public class Animal {
 	}
 
 	public Especie getEspecie() {
-		return especie;
+		return dados.getEspecie();
 	}
 
 	public Porte getPorte() {
-		return porte;
+		return dados.getPorte();
 	}
 
 	public SexoAnimal getSexo() {
-		return sexo;
+		return dados.getSexo();
 	}
 
 	public Integer getIdade() {
-		return idade;
+		return dados.getIdade();
 	}
 
 	public String getDescricao() {
-		return descricao;
+		return dados.getDescricao();
 	}
 
 	public List<Tag> getTags() {
@@ -266,18 +212,6 @@ public class Animal {
 
 	public LocalDateTime getAtualizadoEm() {
 		return atualizadoEm;
-	}
-
-	private void validarDados(String nome, Especie especie, Porte porte, Integer idade, UUID larId) {
-		if (nome == null || nome.isBlank()) {
-			throw new IllegalArgumentException("Nome do animal é obrigatório.");
-		}
-		Objects.requireNonNull(especie, "Espécie do animal é obrigatória.");
-		Objects.requireNonNull(porte, "Porte do animal é obrigatório.");
-		if (idade != null && idade < 0) {
-			throw new IllegalArgumentException("Idade do animal não pode ser negativa.");
-		}
-		validarLar(larId);
 	}
 
 	private void validarLar(UUID larId) {

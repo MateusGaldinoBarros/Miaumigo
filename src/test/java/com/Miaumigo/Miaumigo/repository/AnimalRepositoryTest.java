@@ -3,8 +3,10 @@ package com.Miaumigo.Miaumigo.repository;
 import com.Miaumigo.Miaumigo.domain.Animal;
 import com.Miaumigo.Miaumigo.domain.AnimalStatus;
 import com.Miaumigo.Miaumigo.domain.Adotante;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Especie;
 import com.Miaumigo.Miaumigo.domain.Porte;
+import com.Miaumigo.Miaumigo.domain.SexoAnimal;
 import com.Miaumigo.Miaumigo.domain.Tag;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -33,11 +35,7 @@ class AnimalRepositoryTest {
 	@Test
 	void deveSalvarAnimal_quandoDadosValidos() {
 		Animal animal = new Animal(
-				"Luna",
-				Especie.GATO,
-				Porte.PEQUENO,
-				2,
-				"Dócil",
+				dadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil"),
 				UUID.randomUUID(),
 				List.of(Tag.CARINHOSO, Tag.ADAPTADO_A_APARTAMENTO, Tag.CONVIVE_COM_CRIANCAS),
 				"animais/luna"
@@ -60,7 +58,7 @@ class AnimalRepositoryTest {
 	void devePersistirAdotantes_quandoAnimalForAdotadoEDevolvido() {
 		Adotante primeiroAdotante = adotanteRepository.save(novoAdotante("Maria Silva", "maria@email.com", "12345678901"));
 		Adotante segundoAdotante = adotanteRepository.save(novoAdotante("João Souza", "joao@email.com", "98765432109"));
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animal = novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
 		animal.realizarAdocao(primeiroAdotante);
 		animal.devolver("Não se adaptou");
 		animal.realizarAdocao(segundoAdotante);
@@ -77,8 +75,8 @@ class AnimalRepositoryTest {
 	@Test
 	void deveRetornarAnimais_quandoLarValido() {
 		UUID larId = UUID.randomUUID();
-		animalRepository.save(new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", larId));
-		animalRepository.save(new Animal("Thor", Especie.CACHORRO, Porte.GRANDE, 4, "Brincalhão", UUID.randomUUID()));
+		animalRepository.save(novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", larId));
+		animalRepository.save(novoAnimal("Thor", Especie.CACHORRO, Porte.GRANDE, 4, "Brincalhão", UUID.randomUUID()));
 
 		List<Animal> animais = animalRepository.findByLarId(larId);
 
@@ -88,8 +86,8 @@ class AnimalRepositoryTest {
 
 	@Test
 	void deveRetornarAnimais_quandoStatusValido() {
-		Animal animalDisponivel = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
-		Animal animalEmProcesso = new Animal("Thor", Especie.CACHORRO, Porte.GRANDE, 4, "Brincalhão", UUID.randomUUID());
+		Animal animalDisponivel = novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", UUID.randomUUID());
+		Animal animalEmProcesso = novoAnimal("Thor", Especie.CACHORRO, Porte.GRANDE, 4, "Brincalhão", UUID.randomUUID());
 		animalEmProcesso.iniciarProcessoAdocao();
 		animalRepository.save(animalDisponivel);
 		animalRepository.save(animalEmProcesso);
@@ -103,8 +101,8 @@ class AnimalRepositoryTest {
 	@Test
 	void deveRetornarAnimais_quandoLarEStatusValidos() {
 		UUID larId = UUID.randomUUID();
-		Animal animalDisponivel = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", larId);
-		Animal animalEmProcesso = new Animal("Thor", Especie.CACHORRO, Porte.GRANDE, 4, "Brincalhão", larId);
+		Animal animalDisponivel = novoAnimal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Dócil", larId);
+		Animal animalEmProcesso = novoAnimal("Thor", Especie.CACHORRO, Porte.GRANDE, 4, "Brincalhão", larId);
 		animalEmProcesso.iniciarProcessoAdocao();
 		animalRepository.save(animalDisponivel);
 		animalRepository.save(animalEmProcesso);
@@ -117,5 +115,13 @@ class AnimalRepositoryTest {
 
 	private Adotante novoAdotante(String nome, String email, String cpf) {
 		return new Adotante(nome, "Rua das Flores, 123", email, "senha123", cpf, List.of(Tag.DOCIL));
+	}
+
+	private Animal novoAnimal(String nome, Especie especie, Porte porte, Integer idade, String descricao, UUID larId) {
+		return new Animal(dadosAnimal(nome, especie, porte, idade, descricao), larId, List.of(), null);
+	}
+
+	private DadosAnimal dadosAnimal(String nome, Especie especie, Porte porte, Integer idade, String descricao) {
+		return new DadosAnimal(nome, especie, porte, SexoAnimal.FEMEA, idade, descricao);
 	}
 }

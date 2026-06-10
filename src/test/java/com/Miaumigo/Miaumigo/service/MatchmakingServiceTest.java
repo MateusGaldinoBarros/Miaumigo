@@ -3,9 +3,11 @@ package com.Miaumigo.Miaumigo.service;
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
 import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Especie;
 import com.Miaumigo.Miaumigo.domain.ExperienciaAnimais;
 import com.Miaumigo.Miaumigo.domain.Porte;
+import com.Miaumigo.Miaumigo.domain.SexoAnimal;
 import com.Miaumigo.Miaumigo.domain.Tag;
 import com.Miaumigo.Miaumigo.domain.TempoDisponivel;
 import com.Miaumigo.Miaumigo.domain.TipoMoradia;
@@ -131,7 +133,12 @@ class MatchmakingServiceTest {
 		when(animalRepository.findByStatus(AnimalStatus.DISPONIVEL))
 				.thenReturn(List.of(
 						novoAnimal("Luna", List.of(Tag.CALMO, Tag.ADAPTADO_A_APARTAMENTO)),
-						new Animal("Rex", Especie.CACHORRO, Porte.GRANDE, 4, "Descrição", UUID.randomUUID(), List.of(Tag.ENERGICO, Tag.PRECISA_DE_ESPACO), null)
+						new Animal(
+								new DadosAnimal("Rex", Especie.CACHORRO, Porte.GRANDE, SexoAnimal.MACHO, 4, "Descrição"),
+								UUID.randomUUID(),
+								List.of(Tag.ENERGICO, Tag.PRECISA_DE_ESPACO),
+								null
+						)
 				));
 
 		List<AnimalRecomendadoResponse> recomendacoes = matchmakingService.recomendarAnimais(adotanteId);
@@ -195,6 +202,11 @@ class MatchmakingServiceTest {
 	}
 
 	private Animal novoAnimal(String nome, List<Tag> tags) {
-		return new Animal(nome, Especie.GATO, Porte.PEQUENO, 2, "Descrição", UUID.randomUUID(), tags, null);
+		return new Animal(
+				new DadosAnimal(nome, Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Descrição"),
+				UUID.randomUUID(),
+				tags,
+				null
+		);
 	}
 }

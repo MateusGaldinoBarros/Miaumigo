@@ -2,9 +2,11 @@ package com.Miaumigo.Miaumigo.repository;
 
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Especie;
 import com.Miaumigo.Miaumigo.domain.Lar;
 import com.Miaumigo.Miaumigo.domain.Porte;
+import com.Miaumigo.Miaumigo.domain.SexoAnimal;
 import com.Miaumigo.Miaumigo.domain.SolicitacaoAdocao;
 import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
 import org.junit.jupiter.api.Test;
@@ -34,7 +36,12 @@ class SolicitacaoAdocaoRepositoryTest {
 	@Test
 	void deveConsultarSolicitacoesPendentes_quandoLarEAdotantesValidos() {
 		Lar lar = larRepository.save(new Lar("Lar Amigo"));
-		Animal animal = animalRepository.save(new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Calma", lar.getId()));
+		Animal animal = animalRepository.save(new Animal(
+				new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Calma"),
+				lar.getId(),
+				List.of(),
+				null
+		));
 		Adotante maria = adotanteRepository.save(novoAdotante("Maria", "maria@email.com", "12345678901"));
 		Adotante joao = adotanteRepository.save(novoAdotante("Joao", "joao@email.com", "98765432109"));
 		solicitacaoRepository.save(new SolicitacaoAdocao(animal, maria));

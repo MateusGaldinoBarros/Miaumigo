@@ -3,10 +3,12 @@ package com.Miaumigo.Miaumigo.service;
 import com.Miaumigo.Miaumigo.domain.Adotante;
 import com.Miaumigo.Miaumigo.domain.Animal;
 import com.Miaumigo.Miaumigo.domain.AnimalStatus;
+import com.Miaumigo.Miaumigo.domain.DadosAnimal;
 import com.Miaumigo.Miaumigo.domain.Especie;
 import com.Miaumigo.Miaumigo.domain.Lar;
 import com.Miaumigo.Miaumigo.domain.Operador;
 import com.Miaumigo.Miaumigo.domain.Porte;
+import com.Miaumigo.Miaumigo.domain.SexoAnimal;
 import com.Miaumigo.Miaumigo.domain.SolicitacaoAdocao;
 import com.Miaumigo.Miaumigo.domain.SolicitacaoStatus;
 import com.Miaumigo.Miaumigo.dto.SolicitacaoAdocaoResponse;
@@ -121,7 +123,12 @@ class SolicitacaoAdocaoServiceTest {
 	}
 
 	private Animal novoAnimal(UUID larId) {
-		Animal animal = new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Calma", larId);
+		Animal animal = new Animal(
+				new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Calma"),
+				larId,
+				List.of(),
+				null
+		);
 		ReflectionTestUtils.setField(animal, "id", UUID.randomUUID());
 		return animal;
 	}

@@ -40,7 +40,12 @@ class SolicitacaoAdocaoTest {
 	}
 
 	private Animal novoAnimal() {
-		return new Animal("Luna", Especie.GATO, Porte.PEQUENO, 2, "Calma", UUID.randomUUID());
+		return new Animal(
+				new DadosAnimal("Luna", Especie.GATO, Porte.PEQUENO, SexoAnimal.FEMEA, 2, "Calma"),
+				UUID.randomUUID(),
+				List.of(),
+				null
+		);
 	}
 
 	private Adotante novoAdotante() {

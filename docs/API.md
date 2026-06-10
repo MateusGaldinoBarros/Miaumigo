@@ -299,7 +299,8 @@ CANCELADA
 1. Responsavel cadastra o lar com `POST /api/v1/lares/cadastro`.
 2. Responsavel faz login com `POST /api/v1/auth/login` e guarda o `access_token` do operador.
 3. Cadastrar animal com `POST /api/v1/animais`, usando
-   `Authorization: Bearer <access_token>`.
+   `Authorization: Bearer <access_token>`. O campo `sexo` e obrigatorio e aceita
+   `MACHO`, `FEMEA` ou `DESCONHECIDO`.
 4. Listar candidatos com `GET /api/v1/lares/me/solicitacoes?status=PENDENTE`, usando
    `Authorization: Bearer <access_token>`.
 5. Aprovar com `POST /api/v1/solicitacoes/{id}/aprovacao` ou rejeitar com

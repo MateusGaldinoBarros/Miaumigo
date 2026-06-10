@@ -217,6 +217,7 @@ class OperadorJwtSecurityTest {
 									"nome": "Luna",
 									"especie": "GATO",
 									"porte": "PEQUENO",
+									"sexo": "FEMEA",
 									"idade": 2,
 									"descricao": "Docil e tranquila",
 									"tags": ["CALMO"]
