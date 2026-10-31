@@ -90,3 +90,25 @@ export const faqs = [
     answer: "São acompanhamentos automáticos feitos pela plataforma para ajudar no processo de adaptação e incentivar uma adoção responsável.",
   },
 ];
+export const team = [
+  {
+    name: "Mateus Galdino",
+    role: "Desenvolvedor Back-end, colaborou com a equipe no desenvolvimento do MIAUmigos, unindo tecnologia e impacto social.",
+    photo: "/mateus.png",
+  },
+  {
+    name: "Maria de Fátima",
+    role: "Desenvolvedora Full Stack, apaixonada por pets e inovação, contribuiu para a identidade visual e idealização do MIAUmigos, promovendo a adoção responsável.",
+    photo: "/download.png",
+  },
+  {
+    name: "Mariana Beltrão",
+    role: "Desenvolvedora Back-end, busca criar soluções tecnológicas e idealizou a proposta de tornar a adoção mais segura e acessível.",
+    photo: "/mariana.png",
+  },
+  {
+    name: "Vanessa Lima",
+    role: "Desenvolvedora Front-end, apaixonada por tecnologia e impacto social, acredita na colaboração para transformar a vida dos animais.",
+    photo: "/vanessa.png",
+  },
+];
